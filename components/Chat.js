@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
 // Import necessary components from React and React Native
 import React, { useState, useEffect } from 'react';
 
+// Define the Chat component
 const Chat = ({ route }) => {
+    // Destructure name and backgroundColor from route params
     const { name, backgroundColor } = route.params;
     // Initialize messages state
     const [messages, setMessages] = useState([]);
@@ -51,6 +51,7 @@ const Chat = ({ route }) => {
     )
 };
 
+// Define styles for the component
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -63,4 +64,5 @@ const styles = StyleSheet.create({
     }
 });
 
+// Export the Chat component
 export default Chat;
