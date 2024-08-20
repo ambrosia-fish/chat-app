@@ -1,10 +1,15 @@
+// Import necessary components from React and React Native
 import { useState } from 'react';
 import { StyleSheet, View, Text, Button, TextInput, ImageBackground, TouchableOpacity  } from 'react-native';
 
+// Define the Start component
 const Start = ({ navigation }) => {
+  // State for user's name
   const [name, setName] = useState('');
+  // State for chat background color
   const [chatBG, setChatBG] = useState('white')
 
+  // Define color options
   const colors = {
     blue: '#3498db',
     red: '#e74c3c',
@@ -13,6 +18,7 @@ const Start = ({ navigation }) => {
   };
 
   return (
+    // Set background image
     <ImageBackground
             source={require('../assets/background.png')}
             resizeMode="cover"
@@ -20,32 +26,37 @@ const Start = ({ navigation }) => {
         >
         <View style={styles.container}>
             <Text>Welcome to Chat!</Text>
+            {/* Input field for username */}
             <TextInput
                 style={styles.textInput}
                 value={name}
                 onChangeText={setName}
                 placeholder='Type your username here'
             />
+            {/* Color selector */}
             <View style={styles.colorSelector}>
-
-                <TouchableOpacity 
+                {/* Blue color option */}
+                <TouchableOpacity
                     style={[styles.colorButton, { backgroundColor: colors.blue }]}
                     onPress={() => setChatBG(colors.blue)}
                 />
-                <TouchableOpacity 
+                {/* Red color option */}
+                <TouchableOpacity
                     style={[styles.colorButton, { backgroundColor: colors.red }]}
                     onPress={() => setChatBG(colors.red)}
                 />
-                <TouchableOpacity 
+                {/* Green color option */}
+                <TouchableOpacity
                     style={[styles.colorButton, { backgroundColor: colors.green }]}
                     onPress={() => setChatBG(colors.green)}
                 />
-                <TouchableOpacity 
+                {/* Yellow color option */}
+                <TouchableOpacity
                     style={[styles.colorButton, { backgroundColor: colors.yellow }]}
                     onPress={() => setChatBG(colors.yellow)}
                 />
-
             </View>
+            {/* Button to join chat */}
             <Button
                 title="Join Chat"
                 onPress={() => navigation.navigate('Chat', { name: name, backgroundColor: chatBG })}
@@ -55,10 +66,11 @@ const Start = ({ navigation }) => {
   );
 }
 
+// Define styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-     justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   textInput: {
@@ -88,4 +100,5 @@ const styles = StyleSheet.create({
   }
 });
 
+// Export the Start component
 export default Start;
