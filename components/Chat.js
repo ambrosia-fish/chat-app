@@ -5,13 +5,48 @@ import React, { useState, useEffect } from 'react';
 
 const Chat = ({ route }) => {
     const { name, backgroundColor } = route.params;
+    // Initialize messages state
+    const [messages, setMessages] = useState([]);
 
     // Use effect to set initial messages when component mounts
     useEffect(() => {
+        setMessages([
+          {
+            _id: 1,
+            text: "Hello developer",
+            createdAt: new Date(),
+            user: {
+              _id: 2,
+              name: "React Native",
+              avatar: "https://placeimg.com/140/140/any",
+            },
+          },
+          {
+            _id: 2,
+            text: 'This is a system message',
+            createdAt: new Date(),
+            system: true,
+          },
+        ]);
       }, []);
+
+    // Function to handle sending new messages
+    const onSend = (newMessages) => {
+        setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
+    }
+    // Render the chat interface
     return (
-        <View style={[styles.container, { backgroundColor }]}>
-            <Text style={styles.heading}>{name}</Text>
+        <View style={styles.container}>
+            <GiftedChat
+                messages={messages}
+                renderBubble={renderBubble}
+                onSend={messages => onSend(messages)}
+                user={{
+                    _id: 1
+                }}
+            />
+            {/* Add KeyboardAvoidingView for Android to handle keyboard */}
+            { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null }
         </View>
     )
 };
