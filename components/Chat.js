@@ -1,5 +1,8 @@
 // Import necessary components from React and React Native
 import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, KeyboardAvoidingView, Platform } from 'react-native';
+// Import GiftedChat for chat UI
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
 // Define the Chat component
 const Chat = ({ route }) => {
@@ -34,6 +37,22 @@ const Chat = ({ route }) => {
     const onSend = (newMessages) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
     }
+
+    // Custom render function for chat bubbles
+    const renderBubble = (props) => {
+        return <Bubble
+          {...props}
+          wrapperStyle={{
+            right: {
+              backgroundColor: "#000"
+            },
+            left: {
+              backgroundColor: "#FFF"
+            }
+          }}
+        />
+    }
+
     // Render the chat interface
     return (
         <View style={styles.container}>
@@ -55,8 +74,6 @@ const Chat = ({ route }) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'flex-start',
-      alignItems: 'center'
     },
     heading: {
         fontSize: 50,
