@@ -6,6 +6,7 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { Alert } from 'react-native';
 import Start from './components/Start';
 import Chat from './components/Chat';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 // Firebase imports
 import { initializeApp } from 'firebase/app';
@@ -53,14 +54,16 @@ const App = () => {
   }, [connectionStatus.isConnected]);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Start">
-        <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen name="Chat">
-          {(props) => <Chat isConnected={isConnected} db={db} {...props} />}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ActionSheetProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Start">
+          <Stack.Screen name="Start" component={Start} />
+          <Stack.Screen name="Chat">
+            {(props) => <Chat isConnected={isConnected} db={db} {...props} />}
+          </Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ActionSheetProvider>
   );
 }
 
