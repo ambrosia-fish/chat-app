@@ -1,3 +1,4 @@
+// Imports
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,15 +8,13 @@ import { Alert } from 'react-native';
 import Start from './components/Start';
 import Chat from './components/Chat';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-
-// Firebase imports
 import { initializeApp } from 'firebase/app';
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { getStorage } from "firebase/storage";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
-
+// Firebase configuration object
 const firebaseConfig = {
   apiKey: "AIzaSyD_MRxCX8f_1ltWELaTGEAebEZEY1aE3RM",
   authDomain: "chatapp-a7c2b.firebaseapp.com",
@@ -37,13 +36,14 @@ const auth = initializeAuth(app, {
 // Initialize Firestore
 const db = getFirestore(app);
 const storage = getStorage(app);
-
 const Stack = createNativeStackNavigator();
 
+// Main App component
 const App = () => {
   const connectionStatus = useNetInfo();
   const [isConnected, setIsConnected] = useState(false);
 
+  // Effect to handle network connection changes
   useEffect(() => {
     if (connectionStatus.isConnected === false) {
       Alert.alert("Connection Lost!");

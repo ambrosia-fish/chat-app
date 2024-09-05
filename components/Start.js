@@ -1,9 +1,12 @@
+// Imports
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Alert } from 'react-native';
 import { signInAnonymously } from "firebase/auth";
 import { auth } from '../App';
 
+// Start component
 const Start = ({ navigation }) => {
+  // State for username and background color
   const [name, setName] = useState('');
   const [chatBG, setChatBG] = useState('white');
 
@@ -14,6 +17,7 @@ const Start = ({ navigation }) => {
     yellow: '#f1c40f'
   };
 
+  // Function to sign in user anonymously and navigate to Chat screen
   const signInUser = () => {
     signInAnonymously(auth)
       .then(result => {
@@ -27,7 +31,6 @@ const Start = ({ navigation }) => {
         Alert.alert("Authentication failed", error.message);
       });
   }
-
   return (
     <ImageBackground
       source={require('../assets/background.png')}
@@ -71,6 +74,7 @@ const Start = ({ navigation }) => {
   );
 }
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

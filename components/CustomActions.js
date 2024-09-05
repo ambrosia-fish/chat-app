@@ -1,3 +1,4 @@
+// Imports
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { TouchableOpacity } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
@@ -6,8 +7,12 @@ import MapView from 'react-native-maps';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
 
+// CustomActions Component
 const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
+  // Create object for useActionSheet
     const actionSheet = useActionSheet();
+
+    // Show action sheet with three options, choosing each option calls the corresponding function.
     const onActionPress = () => {
         const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
         const cancelButtonIndex = options.length - 1;
@@ -32,12 +37,15 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID }) 
         );
       };
 
+      // Function for generating a refID to append image uploads.
       const generateReference = (uri) => {
         const timeStamp = (new Date()).getTime();
         const imageName = uri.split("/")[uri.split("/").length - 1];
         return `${userID}-${timeStamp}-${imageName}`;
       }
 
+
+      // Upload image to Firebase, send in chat
       const uploadAndSendImage = async (imageURI) => {
         const uniqueRefString = generateReference(imageURI);
         const newUploadRef = ref(storage, uniqueRefString);
@@ -49,6 +57,7 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID }) 
         });
       }
     
+      // Request permission then pick an image from album, call above function.
       const pickImage = async () => {
         let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (permissions?.granted) {
@@ -57,7 +66,7 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID }) 
           else Alert.alert("Permissions haven't been granted.");
         }
       }
-    
+      // Request permission to take a photo, call uploadAndSendImage
       const takePhoto = async () => {
         let permissions = await ImagePicker.requestCameraPermissionsAsync();
         if (permissions?.granted) {
@@ -66,6 +75,8 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID }) 
           else Alert.alert("Permissions haven't been granted.");
         }
       }
+
+      // Request permission to obtain location, send location
       const getLocation = async () => {
         let permissions = await Location.requestForegroundPermissionsAsync();
         if (permissions?.granted) {
