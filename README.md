@@ -51,8 +51,9 @@ Before you begin, ensure you have met the following requirements:
    ```
 
 6. Run the app on your preferred platform:
-   - For iOS: Press 'i' in the terminal or click 'Run on iOS simulator' in the Expo DevTools browser tab
+   - For iOS: Press 'i' in the terminal or click 'Run on iOS simulator' in the Expo DevTools App browser tab
    - For Android: Press 'a' in the terminal or click 'Run on Android device/emulator' in the Expo DevTools browser tab
+   - You can also run from a personal device on the same network using the Expo app from the App Store or Google Play Store
 
 ## Usage
 
