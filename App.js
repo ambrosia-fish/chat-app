@@ -12,6 +12,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import { getStorage } from "firebase/storage";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -35,6 +36,7 @@ const auth = initializeAuth(app, {
 
 // Initialize Firestore
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 const Stack = createNativeStackNavigator();
 
@@ -59,7 +61,7 @@ const App = () => {
         <Stack.Navigator initialRouteName="Start">
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Chat">
-            {(props) => <Chat isConnected={isConnected} db={db} {...props} />}
+            {(props) => <Chat isConnected={isConnected} db={db} storage={storage} {...props} />}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

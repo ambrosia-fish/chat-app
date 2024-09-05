@@ -7,7 +7,7 @@ import CustomActions from './CustomActions'
 import MapView from 'react-native-maps';
 
 
-const Chat = ({ route, db, isConnected }) => {
+const Chat = ({ route, db, isConnected, storage }) => {
   const { name, backgroundColor, userID } = route.params;
   const [messages, setMessages] = useState([]);
 
@@ -71,7 +71,7 @@ const Chat = ({ route, db, isConnected }) => {
   }
 
   const renderCustomActions = (props) => {
-    return <CustomActions {...props} />;
+    return <CustomActions storage={storage} userID={userID} {...props} />;
   };
 
   const renderCustomView = (props) => {

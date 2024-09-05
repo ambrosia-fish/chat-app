@@ -4,8 +4,9 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import MapView from 'react-native-maps';
 import { useActionSheet } from '@expo/react-native-action-sheet';
+import { ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
 
-const CustomActions = ({wrapperStyle, iconTextStyle, onSend }) => {
+const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
     const actionSheet = useActionSheet();
     const onActionPress = () => {
         const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
@@ -31,6 +32,40 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend }) => {
         );
       };
 
+      const generateReference = (uri) => {
+        const timeStamp = (new Date()).getTime();
+        const imageName = uri.split("/")[uri.split("/").length - 1];
+        return `${userID}-${timeStamp}-${imageName}`;
+      }
+
+      const uploadAndSendImage = async (imageURI) => {
+        const uniqueRefString = generateReference(imageURI);
+        const newUploadRef = ref(storage, uniqueRefString);
+        const response = await fetch(imageURI);
+        const blob = await response.blob();
+        uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+          const imageURL = await getDownloadURL(snapshot.ref)
+          onSend({ image: imageURL })
+        });
+      }
+    
+      const pickImage = async () => {
+        let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (permissions?.granted) {
+          let result = await ImagePicker.launchImageLibraryAsync();
+          if (!result.canceled) await uploadAndSendImage(result.assets[0].uri);
+          else Alert.alert("Permissions haven't been granted.");
+        }
+      }
+    
+      const takePhoto = async () => {
+        let permissions = await ImagePicker.requestCameraPermissionsAsync();
+        if (permissions?.granted) {
+          let result = await ImagePicker.launchCameraAsync();
+          if (!result.canceled) await uploadAndSendImage(result.assets[0].uri);
+          else Alert.alert("Permissions haven't been granted.");
+        }
+      }
       const getLocation = async () => {
         let permissions = await Location.requestForegroundPermissionsAsync();
         if (permissions?.granted) {
@@ -71,17 +106,13 @@ const styles = StyleSheet.create({
         borderColor: '#b2b2b2',
         borderWidth: 2,
         flex: 1,
-        justifyContent: 'center', // Center content vertically
-        alignItems: 'center',     // Center content horizontally
+     
       },
       iconText: {
         color: '#b2b2b2',
-        fontWeight: 'bold',
-        fontSize: 16,             // Increase font size for better visibility
+        fontSize: 16,             
         backgroundColor: 'transparent',
         textAlign: 'center',
-        textAlignVertical: 'center', // This helps on Android
-        includeFontPadding: false,   // This removes extra padding around text
-        lineHeight: 19,              // Adjust this to match your font size
+        textAlignVertical: 'center', 
     },
   });
