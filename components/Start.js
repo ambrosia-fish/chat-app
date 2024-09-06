@@ -45,7 +45,7 @@ const Start = ({ navigation }) => {
           onChangeText={setName}
           placeholder='Type your username here'
         />
-        <View style={styles.colorSelector}>
+        {/* <View style={styles.colorSelector}>
           <TouchableOpacity
             style={[styles.colorButton, { backgroundColor: colors.blue }]}
             onPress={() => setChatBG(colors.blue)}
@@ -62,7 +62,7 @@ const Start = ({ navigation }) => {
             style={[styles.colorButton, { backgroundColor: colors.yellow }]}
             onPress={() => setChatBG(colors.yellow)}
           />
-        </View>
+        </View> */}
         <TouchableOpacity
           style={styles.button}
           onPress={signInUser}
